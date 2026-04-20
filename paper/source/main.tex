@@ -1,0 +1,189 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{float}
+
+\title{Bounded Criticality in Power Systems:\\
+Finite-Width Critical Bands and Memory-Dependent Stabilization}
+\author{Juan Adam}
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We investigate bounded criticality in power systems under stochastic AI-induced loading using a control mechanism based on logistic softening with memory feedback. Across IEEE-39, IEEE-118, IEEE-300, and IEEE-2383 benchmark systems, the results do not support a sharp single critical point. Instead, a finite-width critical band is observed, within which collapse probability changes continuously and control effectiveness becomes maximal. In the IEEE-118 system, a critical band is identified approximately over 30--50~MW, with peak suppression near 40~MW ($\Delta \approx 0.096$). High-statistics memory ablation confirms that the stabilization effect disappears entirely when memory is removed, indicating that memory feedback is necessary for stabilization in the near-critical regime of the IEEE-118 system. These results demonstrate that (i) collapse occurs across a finite-width critical band rather than at a single point, (ii) control effectiveness is maximal within that band and decays outside, and (iii) memory feedback is necessary for stabilization in the near-critical regime of the IEEE-118 system, while its role in other systems remains to be fully established.
+\end{abstract}
+
+\section{Introduction}
+
+Large-scale power systems under stochastic loading do not necessarily exhibit a sharp phase-transition-like threshold. Instead, the transition from stable to collapsing dynamics may occur over a finite operating interval. Previous studies often assumed a sharp critical load threshold (e.g.,~\cite{Dobson2004}), but real grids may exhibit a gradual transition. This work studies that regime using a control mechanism based on logistic softening with memory feedback. The central hypothesis is that collapse suppression is strongest not everywhere, but specifically inside a finite-width critical band. We select IEEE-39, 118, 300, and 2383 to cover a wide range of system sizes (39 to 2383 buses), allowing us to probe scale-dependent effects.
+
+\section{Methods}
+
+\subsection{Simulation Setup}
+
+Monte Carlo simulations were performed for each operating point with $N = 200$--$800$ independent runs depending on the system and regime. At each time step, stochastic load perturbations were applied to simulate AI-induced demand fluctuations. These perturbations were modeled as Gaussian noise with standard deviation $\sigma = 0.05$ (relative to base load) added to the nominal demand.
+
+Each simulation was run for a fixed number of time steps (500 steps, or until a collapse event), and a collapse event was recorded if either:
+\begin{itemize}
+    \item any transmission line exceeded its thermal limit (150\% of nominal rating), or
+    \item any bus voltage dropped below $V_{\min}=0.9$~p.u. for more than 5 consecutive time steps.
+\end{itemize}
+
+\subsection{Control Mechanism}
+
+The control mechanism combines logistic softening with memory feedback. Let $x(t)$ denote a stress indicator (e.g., maximum line loading). The memory variable evolves as
+\[
+m(t+1) = \alpha m(t) + (1-\alpha)x(t),
+\]
+where $\alpha = 0.6$ is the memory decay parameter. The control gain is defined as
+\[
+\lambda(t) = \frac{\lambda_0}{1 + \exp\bigl(\beta(m(t) - m_c)\bigr)},
+\]
+with $\lambda_0 = 0.8$, $\beta = 9.0$, and $m_c = 1.05$. The effective load is reduced by $\lambda(t)$ times the nominal demand. In memory ablation experiments, the memory update is disabled (i.e., $\alpha = 0$ and $m(t)$ is set equal to $x(t)$ at each step), effectively removing temporal feedback.
+
+\subsection{Statistical Analysis}
+
+Collapse probabilities were estimated as empirical frequencies across Monte Carlo runs. The suppression effect is defined as
+\[
+\Delta = P_{\mathrm{collapse}}^{\mathrm{baseline}} - P_{\mathrm{collapse}}^{\mathrm{controlled}}.
+\]
+Statistical significance was evaluated using standard two-proportion z-tests; reported p-values are typically below $10^{-6}$ in the critical regime. All simulation code and raw data are available at \url{https://github.com/yourusername/bounded-criticality}.
+
+\section{Results}
+
+\subsection{IEEE-118: Finite-Width Critical Band}
+
+We first investigate the response of the IEEE-118 system under increasing AI-induced stochastic load. Rather than exhibiting a sharp transition at a single critical point, the system displays a finite-width critical band spanning approximately 30--50~MW (Fig.~\ref{fig:ieee118}). Within this band, collapse probability increases gradually, indicating the absence of a classical phase transition. The strongest control effect is observed near the midpoint of the band.
+
+Representative left-edge values:
+\begin{itemize}
+    \item 30~MW: baseline $\approx 0.067$
+    \item 31~MW: baseline $\approx 0.133$
+    \item 32~MW: baseline $\approx 0.167$
+\end{itemize}
+Near the center of the band:
+\begin{itemize}
+    \item 39~MW ($N=500$): baseline $=0.570$, controlled $=0.476$, $\Delta=0.094$
+    \item 40~MW ($N=800$): baseline $=0.588$, controlled $=0.491$, $\Delta=0.096$
+\end{itemize}
+These results demonstrate that suppression is maximized within a finite-width interval rather than at a single point.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{fig1_FINAL.png}   % 请替换为你的正确图文件
+\caption{IEEE-118: (a) Collapse probability as a function of load, showing a finite-width critical band (30--50~MW). Baseline (red circles) and controlled (blue squares) curves separate near the band center. (b) Memory ablation at 40~MW: removing memory eliminates the suppression effect ($\Delta$ drops from $0.096$ to $0$).}
+\label{fig:ieee118}
+\end{figure}
+
+\subsection{Memory Ablation in the Near-Critical Regime}
+
+A key mechanism test was performed at 40~MW in IEEE-118 with high statistics ($N=800$). With memory enabled, collapse probability is reduced from $0.588$ to $0.491$, giving $\Delta=0.096$. When memory is disabled, the effect disappears entirely:
+\[
+0.588 \rightarrow 0.588,\qquad \Delta = 0.
+\]
+This demonstrates that memory feedback is necessary for stabilization in the IEEE-118 near-critical regime.
+
+\subsection{IEEE-300: Stronger Intermediate-Scale Suppression}
+
+Scaling to the IEEE-300 system reveals a clearer and more pronounced critical band. Figure~\ref{fig:ieee300} shows the collapse probabilities and the suppression $\Delta$ as a function of load. At 125~MW, collapse probability decreases from $0.63$ to $0.28$, yielding $\Delta \approx 0.35$ with strong statistical significance ($p \approx 0$, $N=300$). Compared to IEEE-118, the transition remains continuous but exhibits a higher peak suppression and a more stable plateau-like structure. This system provides the clearest intermediate-scale evidence for finite-width criticality.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fig3_FINAL.png}   % 请替换为你的正确图文件
+\caption{IEEE-300: Baseline and controlled collapse probabilities (left axis) and suppression $\Delta$ (right axis). The controlled probability remains nearly constant ($\approx 0.296$) from 115 to 126~MW, while the baseline rises. $\Delta$ peaks at $0.332$ at 126~MW, then declines, defining a finite-width critical band (115--130~MW).}
+\label{fig:ieee300}
+\end{figure}
+
+\subsection{IEEE-2383: Near-Discontinuous Critical Edge}
+
+In contrast, the large-scale IEEE-2383 system exhibits a near-discontinuous transition. A narrow interval between 29.05~MW and 29.10~MW produces a jump in collapse probability from $0$ to $1$ in the baseline case. Remarkably, the controlled system remains stable across this transition, yielding a peak suppression of $\Delta \approx 1.0$ at the transition point. Outside this narrow interval, the controlled system also collapses, indicating that the suppression effect is localized. This behavior suggests that, at sufficiently large scales, the transition may approach a sharp critical edge.
+
+\subsection{Cross-System Summary}
+
+Table~\ref{tab:master} summarizes the peak suppression across all systems. Figure~\ref{fig:crosstab} provides a visual comparison.
+
+\begin{table}[H]
+\centering
+\caption{Peak suppression and critical band characteristics across systems.}
+\label{tab:master}
+\begin{tabular}{lcccccc}
+\toprule
+System & Band (MW) & Peak MW & Baseline & Controlled & $\Delta$ & Memory necessary \\
+\midrule
+IEEE-39   & -- & 140 & 0.68 & 0.00 & 0.68 & Not required (tested point) \\
+IEEE-118  & 30--50 & 40 & 0.588 & 0.491 & 0.096 & Required \\
+IEEE-300  & 115--130 & 126 & 0.628 & 0.296 & 0.332 & Not tested \\
+IEEE-2383 & 29.05--29.10 & 29.10 & 1.00 & 0.00 & $\sim 1.0$ & Not tested \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig2_FINAL.png}   % 请替换为你的正确图文件
+\caption{Cross-system comparison of peak suppression $\Delta$. For IEEE-2383, the value corresponds to the transition point only. Error bars indicate $95\%$ confidence intervals (bootstrap).}
+\label{fig:crosstab}
+\end{figure}
+
+\subsection{Scale Dependence of Critical Band Structure}
+
+A systematic comparison across system sizes reveals a clear scale-dependent evolution of the transition structure.
+
+In the IEEE-118 system, the transition occurs over a relatively broad interval (approximately 30--50~MW), corresponding to a wide critical band. The suppression effect is modest ($\Delta \approx 0.096$), and memory feedback is required for stabilization.
+
+In the IEEE-300 system, the critical band becomes more structured and pronounced, spanning approximately 115--130~MW. Within this band, suppression increases significantly, reaching a peak of $\Delta \approx 0.33$, and exhibits a plateau-like behavior.
+
+At the largest scale (IEEE-2383), the transition sharpens dramatically. The collapse probability changes from 0 to 1 over a very narrow interval ($\Delta\mathrm{MW} \approx 0.05$), indicating a near-discontinuous edge.
+
+These results suggest that the effective width of the critical band decreases with system size, while the transition becomes increasingly sharp. This behavior is consistent with a crossover from continuous finite-width transitions to near-discontinuous critical edges in large-scale systems.
+
+% Figure 4: Empirical bandwidth vs system size (no scaling claim)
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fig4_FINAL.png}   % 请替换为你的正确图文件（只有三点，无拟合线）
+\caption{Empirical critical band width $W$ as a function of system size $N$ (number of buses). The width decreases from $\approx 20$~MW (118 buses) to $\approx 15$~MW (300 buses) and becomes very small ($<0.1$~MW) for the 2383-bus system. No power-law fit is attempted due to the limited number of data points; the qualitative trend supports a gradual sharpening of the transition with increasing system size.}
+\label{fig:width_scaling}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{fig5_FINAL.png}   % 请替换为你的正确图文件
+\caption{Peak susceptibility $\chi_{\mathrm{peak}}$ versus system size $A$ (number of buses). Unlike classical critical phenomena, $\chi_{\mathrm{peak}}$ does not diverge; instead it shows a slight decrease (from $0.42$ to $0.34$). This absence of divergence is a hallmark of bounded criticality.}
+\label{fig:chi_scaling}
+\end{figure}
+
+\section{Discussion}
+
+The results consistently indicate that collapse behavior in realistic power grids is better described by a finite-width critical band rather than a single sharp threshold. The structure of this transition evolves with system size. Smaller systems (IEEE-118) exhibit a smooth and extended band, intermediate systems (IEEE-300) display stronger and more stable suppression within the band, while very large systems (IEEE-2383) approach a near-discontinuous critical edge.
+
+Importantly, memory feedback plays a decisive role in the near-critical regime of the IEEE-118 system. The complete disappearance of the control effect under memory ablation indicates that stabilization is not purely instantaneous but depends on temporal feedback. Whether memory is necessary in other systems (IEEE-300, IEEE-2383) remains an open question and requires further investigation.
+
+These findings support a bounded-criticality framework in which stabilization emerges only within a restricted operating region and depends on system scale and dynamical structure. From an engineering perspective, the proposed controller could be deployed in real-time grid management if the stress indicator $x(t)$ is measurable (e.g., from PMU data) and the memory update is computationally lightweight.
+
+\section{Conclusion}
+
+This study supports the following conclusions:
+\begin{enumerate}
+    \item Power-grid collapse behavior is better described by finite-width critical bands rather than a single sharp threshold.
+    \item Control effectiveness peaks within these bands and diminishes outside them, exhibiting non-monotonic $\Delta$ behavior.
+    \item Memory feedback is necessary for stabilization in the IEEE-118 near-critical regime. Its necessity across other systems remains an open question and requires further investigation.
+    \item The critical band width decreases with system size, suggesting a crossover from continuous to near-discontinuous transitions.
+\end{enumerate}
+These results establish a bounded-criticality perspective for cascading failures and motivate further investigation of scale-dependent transition behavior.
+
+\begin{thebibliography}{9}
+\bibitem{Dobson2004} I. Dobson, B. A. Carreras, and D. E. Newman, ``A criticality approach to monitoring cascading failure risk in power systems,'' in \textit{IEEE PES General Meeting}, 2004.
+\bibitem{Moretti2013} P. Moretti and M. A. Muñoz, ``Griffiths phases and the stretching of criticality in brain networks,'' \textit{Nature Communications}, vol. 4, p. 2521, 2013.
+\bibitem{Bak1987} P. Bak, C. Tang, and K. Wiesenfeld, ``Self-organized criticality: An explanation of $1/f$ noise,'' \textit{Phys. Rev. Lett.}, vol. 59, p. 381, 1987.
+\end{thebibliography}
+
+\end{document}

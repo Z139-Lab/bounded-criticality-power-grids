@@ -1,0 +1,24 @@
+{
+  "title": "Bounded Criticality in Power Systems: 4-in-1 Reproducibility Package",
+  "upload_type": "dataset",
+  "description": "Compact reproducibility package with dataset, figure-generation scripts, figure mapping, and archival metadata.",
+  "creators": [
+    {
+      "name": "Adam, Juan",
+      "affiliation": "Independent Research"
+    }
+  ],
+  "keywords": [
+    "bounded criticality",
+    "power systems",
+    "cascading failures",
+    "finite-width critical band",
+    "IEEE-118",
+    "IEEE-300",
+    "IEEE-2383"
+  ],
+  "license": "cc-by-4.0",
+  "version": "v1.0.0",
+  "language": "eng",
+  "access_right": "open"
+}
