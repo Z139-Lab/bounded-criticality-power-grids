@@ -1,4 +1,4 @@
-DOI: https://doi.org/10.5281/zenodo.19686209
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19686209.svg)](https://doi.org/10.5281/zenodo.19686209)
 
 # Bounded Criticality in Power Systems — 4-in-1 Reproducibility Package
 
