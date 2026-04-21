@@ -19,3 +19,13 @@ Outputs:
 - `paper/figures/fig3_ieee300_submission.png`
 - `paper/figures/fig4_width_empirical_submission.png`
 - `paper/figures/fig5_peak_susceptibility_submission.png`
+
+## Framework Relation
+
+This repository is part of the bounded-criticality research stack and should be read alongside the UVP framework repository:
+
+https://github.com/Z139-Lab/uvp-v2-framework
+
+## Reproducibility
+
+Install dependencies and run the included scripts to regenerate figures and tables from the packaged data.
