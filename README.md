@@ -1,3 +1,5 @@
+DOI: https://doi.org/10.5281/zenodo.19686209
+
 # Bounded Criticality in Power Systems — 4-in-1 Reproducibility Package
 
 This is a compact, paper-grade reproducibility package for the bounded-criticality study on IEEE-39, IEEE-118, IEEE-300, and IEEE-2383 benchmark systems.
