@@ -1,15 +1,6 @@
-cff-version: 1.2.0
-title: "Bounded Criticality in Power Systems: 4-in-1 Reproducibility Package"
-message: "If you use this repository, please cite the associated paper and dataset."
-type: dataset
+﻿cff-version: 1.2.0
+title: "Bounded Criticality Research Repository"
 authors:
   - family-names: Adam
     given-names: Juan
-repository-code: "https://github.com/<your-username>/bounded-criticality-power-grids"
-license: "CC-BY-4.0"
-keywords:
-  - bounded criticality
-  - power systems
-  - cascading failures
-  - finite-width critical band
-  - IEEE benchmark systems
+year: 2026
