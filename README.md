@@ -3,22 +3,25 @@
 This is a compact, paper-grade reproducibility package for the bounded-criticality study on IEEE-39, IEEE-118, IEEE-300, and IEEE-2383 benchmark systems.
 
 ## Included
-- `data/real_data.csv`
-- `scripts/generate_figures.py`
-- `docs/figure_mapping.md`
-- `CITATION.cff`
-- `.zenodo.json`
+
+* `data/real\_data.csv`
+* `scripts/generate\_figures.py`
+* `docs/figure\_mapping.md`
+* `CITATION.cff`
+* `.zenodo.json`
 
 ## Reproduce figures
+
 ```bash
-python run_all.py
+python run\_all.py
 ```
 
 Outputs:
-- `paper/figures/fig1_ieee118_submission.png`
-- `paper/figures/fig3_ieee300_submission.png`
-- `paper/figures/fig4_width_empirical_submission.png`
-- `paper/figures/fig5_peak_susceptibility_submission.png`
+
+* `paper/figures/fig1\_ieee118\_submission.png`
+* `paper/figures/fig3\_ieee300\_submission.png`
+* `paper/figures/fig4\_width\_empirical\_submission.png`
+* `paper/figures/fig5\_peak\_susceptibility\_submission.png`
 
 ## Framework Relation
 
@@ -29,3 +32,18 @@ https://github.com/Z139-Lab/uvp-v2-framework
 ## Reproducibility
 
 Install dependencies and run the included scripts to regenerate figures and tables from the packaged data.
+
+## Framework Relation
+
+
+
+This repository should be read alongside the UVP framework repository:
+
+
+
+https://github.com/Z139-Lab/uvp-v2-framework
+
+
+
+The UVP framework is used for criticality-oriented analysis and reproducibility support across the broader bounded-criticality research stack.
+
