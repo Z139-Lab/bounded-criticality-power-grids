@@ -1,6 +1,19 @@
 ﻿cff-version: 1.2.0
-title: "Bounded Criticality Zenodo Package"
+title: "Bounded Criticality in Power Systems"
+message: "If you use this repository, please cite it using this metadata."
+type: dataset
 authors:
   - family-names: Adam
     given-names: Juan
-year: 2026
+repository-code: "https://github.com/Z139-Lab/bounded-criticality-power-grids"
+license: "CC-BY-NC-4.0"
+keywords:
+  - bounded criticality
+  - power systems
+  - cascading failure
+  - finite-width critical band
+  - reproducible research
+abstract: >
+  Reproducibility package for bounded criticality in power systems across
+  IEEE-39, IEEE-118, IEEE-300, and IEEE-2383 benchmark systems.
+  Includes compact dataset, figure mapping, and figure-generation scripts.
